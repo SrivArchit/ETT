@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2048 · AI Edition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ── Header ─────────────────────────────────────────────────────────── -->
+  <header>
+    <div class="title-block">
+      <h1>2048</h1>
+      <span class="subtitle">AI EDITION</span>
+    </div>
+    <div class="score-cluster">
+      <div class="score-box">
+        <span class="score-label">SCORE</span>
+        <span class="score-value" id="score">0</span>
+      </div>
+      <div class="score-box">
+        <span class="score-label">BEST</span>
+        <span class="score-value" id="best-score">0</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Controls ───────────────────────────────────────────────────────── -->
+  <div class="controls-row">
+    <button id="btn-new" class="btn btn-primary">New Game</button>
+    <button id="btn-ai-step" class="btn btn-ai">AI: Step</button>
+    <button id="btn-ai-run" class="btn btn-ai">AI: Auto ▶</button>
+    <div class="ai-speed-wrap">
+      <label for="ai-speed">Speed</label>
+      <input type="range" id="ai-speed" min="50" max="800" value="300" step="50">
+    </div>
+  </div>
+
+  <!-- ── Board ──────────────────────────────────────────────────────────── -->
+  <div class="board-container">
+    <div id="board"></div>
+    <div class="overlay" id="overlay" style="display:none">
+      <div class="overlay-content">
+        <p id="overlay-title">Game Over</p>
+        <p id="overlay-score-text"></p>
+        <div class="overlay-form">
+          <input type="text" id="player-name" placeholder="Enter your name" maxlength="20">
+          <button id="btn-submit" class="btn btn-primary">Submit Score</button>
+        </div>
+        <button id="btn-play-again" class="btn btn-secondary">Play Again</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── AI Status ──────────────────────────────────────────────────────── -->
+  <div class="ai-status" id="ai-status">
+    <span class="ai-dot" id="ai-dot"></span>
+    <span id="ai-status-text">AI idle</span>
+  </div>
+
+  <!-- ── Leaderboard ────────────────────────────────────────────────────── -->
+  <section class="leaderboard-section">
+    <div class="leaderboard-header">
+      <h2>Leaderboard</h2>
+      <button id="btn-refresh" class="btn btn-secondary btn-sm">↺ Refresh</button>
+    </div>
+    <table id="leaderboard-table">
+      <thead>
+        <tr><th>#</th><th>Player</th><th>Score</th><th>Date</th></tr>
+      </thead>
+      <tbody id="leaderboard-body">
+        <tr><td colspan="4" class="loading-cell">Loading…</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+</div>
+
+<script src="/static/game.js"></script>
+</body>
+</html>
