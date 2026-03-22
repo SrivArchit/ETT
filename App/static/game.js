@@ -379,9 +379,6 @@ async function fetchLeaderboard() {
 
 /* ── Event Wiring ───────────────────────────────── */
 
-// ...existing code...
-
-/* ── Event Wiring ───────────────────────────────── */
 
 document.getElementById("btn-new").addEventListener("click", newGame);
 
@@ -418,9 +415,7 @@ document.getElementById("btn-submit").addEventListener("click", async () => {
   }
 });
 
-/* ── Boot ───────────────────────────────────────── */
 
-// ...existing code...
 /* ── Boot ───────────────────────────────────────── */
 
 newGame();
