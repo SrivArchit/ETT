@@ -379,22 +379,48 @@ async function fetchLeaderboard() {
 
 /* ── Event Wiring ───────────────────────────────── */
 
+// ...existing code...
+
+/* ── Event Wiring ───────────────────────────────── */
+
 document.getElementById("btn-new").addEventListener("click", newGame);
 
 document.getElementById("btn-ai-step").addEventListener("click", () => {
-
   stopAI();
-
   aiStep();
 });
 
 document.getElementById("btn-ai-run").addEventListener("click", () => {
-
   aiRunning ? stopAI() : startAI();
 });
 
 document.getElementById("btn-refresh").addEventListener("click", fetchLeaderboard);
 
+// Add event listener for score submission
+document.getElementById("btn-submit").addEventListener("click", async () => {
+  const player = document.getElementById("player-name").value.trim() || "Anonymous";
+  try {
+    const res = await fetch("/submit_score", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ player, score })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      hideOverlay();
+      fetchLeaderboard();  // Refresh leaderboard after successful submission
+    } else {
+      alert(data.error || "Error submitting score");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Error submitting score");
+  }
+});
+
+/* ── Boot ───────────────────────────────────────── */
+
+// ...existing code...
 /* ── Boot ───────────────────────────────────────── */
 
 newGame();
