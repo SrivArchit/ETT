@@ -190,13 +190,13 @@ function hideOverlay() {
 
 const KEY_TO_DIR = {
 
-  ArrowUp: "UP",
-  ArrowDown: "DOWN",
+  ArrowUp: "DOWN",
+  ArrowDown: "UP",
   ArrowLeft: "LEFT",
   ArrowRight: "RIGHT",
 
-  w: "UP",
-  s: "DOWN",
+  w: "DOWN",
+  s: "UP",
   a: "LEFT",
   d: "RIGHT"
 };
