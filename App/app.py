@@ -2,8 +2,8 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask import render_template
 import os
 
-from ai.ai_player import get_best_move
-from leaderboard.db import init_db, add_score, get_top_scores
+from Ai.ai_player import get_best_move
+from Leaderboard.db import init_db, add_score, get_top_scores
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 
