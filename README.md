@@ -7,11 +7,11 @@ ETT is a web-based application developed using Python along with standard fronte
 ## Project Structure
 
 ETT/
-│── App/ # Main application source code
-│── requirements.txt # Python dependencies
-│── dockerfile # Docker configuration
-│── .gitignore
-│── README.md
+ - App/ # Main application source code
+ - requirements.txt # Python dependencies
+ - dockerfile # Docker configuration
+ - .gitignore
+ - README.md
 
 
 ## Tech Stack
