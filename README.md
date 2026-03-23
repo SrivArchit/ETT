@@ -1,10 +1,10 @@
-#ETT
+# ETT
 
-##Overview
+## Overview
 
 ETT is a web-based application developed using Python along with standard frontend technologies such as HTML, CSS, and JavaScript. The project is containerized using Docker to ensure consistent environments and simplified deployment.
 
-##Project Structure
+## Project Structure
 
 ETT/
 │── App/ # Main application source code
@@ -14,13 +14,14 @@ ETT/
 │── README.md
 
 
-##Tech Stack
+## Tech Stack
+
 Backend: Python(Flask)
 Frontend: HTML, CSS, JavaScript
 Containerization: Docker
 Database: SQLite
 
-##Installation and Setup
+## Installation and Setup
 
 1. Clone the repository
    
@@ -37,21 +38,21 @@ Run the application
 python App/main.py
 ```
 
-##Features
+## Features
 
   Modular and organized project structure
   Containerized setup for consistent deployment
   Web-based interface
   Scalable backend design
 
-##Future Improvements
+## Future Improvements
 
   Implementation of authentication and authorization
   Enhanced user interface and user experience
   Comprehensive API documentation
   Deployment to cloud platforms
 
-##Contributing
+## Contributing
 
 Contributions are welcome. To contribute:
 
@@ -60,11 +61,11 @@ Contributions are welcome. To contribute:
   Commit your changes
   Push to your branch and open a Pull Request
 
-##License
+## License
 
 This project is licensed under the MIT License.
 
-Author
+## Author
 
 Archit Srivastava
 GitHub: https://github.com/SrivArchit
