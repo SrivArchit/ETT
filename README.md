@@ -2,7 +2,7 @@
 
 ## Overview
 
-ETT is a web-based application developed using Python along with standard frontend technologies such as HTML, CSS, and JavaScript. The project is containerized using Docker to ensure consistent environments and simplified deployment.
+2048 game is a web-based application developed using Python along with standard frontend technologies such as HTML, CSS, and JavaScript. The project is containerized using Docker to ensure consistent environments and simplified deployment.
 
 ## Project Structure
 
