@@ -12,6 +12,7 @@ let bestScore = parseInt(localStorage.getItem("best") || "0", 10);
 let gameOver = false;
 let aiRunning = false;
 let aiTimer = null;
+let history = [];
 
 /* ── New Game ────────────────────────────────────── */
 
@@ -19,6 +20,7 @@ function newGame() {
   board = Array.from({ length: 4 }, () => [0, 0, 0, 0]);
   score = 0;
   gameOver = false;
+  history = [];
 
   stopAI();
 
@@ -29,6 +31,7 @@ function newGame() {
   hideOverlay();
   updateScoreDisplay();
 
+  saveGameState();
   setAIStatus("idle", "AI idle");
 }
 
@@ -215,10 +218,15 @@ document.addEventListener("keydown", e => {
 });
 
 function handleMove(dir) {
+  const oldBoard = board.map(r => [...r]);
+  const oldScore = score;
 
   const moved = applyMove(dir);
 
   if (!moved) return;
+
+  history.push({ board: oldBoard, score: oldScore });
+  if (history.length > 5) history.shift();
 
   const spawned = spawnTile();
 
@@ -232,6 +240,8 @@ function handleMove(dir) {
 
     showOverlay("Game Over", `Final score: ${score}`);
   }
+  
+  saveGameState();
 }
 
 /* ── AI Integration (FIXED) ─────────────────────── */
@@ -265,6 +275,9 @@ async function aiStep() {
 
     let dir = data.move;
 
+    const oldBoard = board.map(r => [...r]);
+    const oldScore = score;
+
     let moved = applyMove(dir);
 
     if (!moved) {
@@ -285,12 +298,15 @@ async function aiStep() {
     }
 
     if (moved) {
+      history.push({ board: oldBoard, score: oldScore });
+      if (history.length > 5) history.shift();
 
       const spawned = spawnTile();
 
       render(spawned);
 
       setAIStatus("active", `AI played: ${dir}`);
+      saveGameState();
     }
 
   } catch (err) {
@@ -377,10 +393,54 @@ async function fetchLeaderboard() {
   }
 }
 
+/* ── Game State Save & Restore ──────────────────── */
+
+function saveGameState() {
+  const state = { board, score, gameOver, history };
+  localStorage.setItem("2048-state", JSON.stringify(state));
+}
+
+function loadGameState() {
+  const saved = localStorage.getItem("2048-state");
+  if (saved) {
+    try {
+      const state = JSON.parse(saved);
+      board = state.board;
+      score = state.score;
+      gameOver = state.gameOver;
+      history = state.history || [];
+      render();
+      if (gameOver) {
+        showOverlay("Game Over", `Final score: ${score}`);
+      }
+      return true;
+    } catch {
+      // Invalid state
+    }
+  }
+  return false;
+}
+
+function undoMove() {
+  if (history.length === 0 || aiRunning) return;
+  const lastState = history.pop();
+  board = lastState.board;
+  score = lastState.score;
+  gameOver = false;
+  hideOverlay();
+  render();
+  saveGameState();
+}
+
 /* ── Event Wiring ───────────────────────────────── */
 
 
 document.getElementById("btn-new").addEventListener("click", newGame);
+
+document.getElementById("btn-undo").addEventListener("click", () => {
+  stopAI();
+  undoMove();
+});
 
 document.getElementById("btn-ai-step").addEventListener("click", () => {
   stopAI();
@@ -418,6 +478,8 @@ document.getElementById("btn-submit").addEventListener("click", async () => {
 
 /* ── Boot ───────────────────────────────────────── */
 
-newGame();
+if (!loadGameState()) {
+  newGame();
+}
 
 fetchLeaderboard();

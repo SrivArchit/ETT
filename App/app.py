@@ -24,6 +24,7 @@ def leaderboard():
 def submit_score():
     data = request.get_json(force=True)
     player = data.get("player", "Anonymous").strip() or "Anonymous"
+    player = player[:20]
     score = data.get("score", 0)
 
     if not isinstance(score, int) or score < 0:
