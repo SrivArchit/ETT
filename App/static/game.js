@@ -74,9 +74,11 @@ function applyMove(dir) {
 
   let b = board.map(r => [...r]);
 
+  // Turn the board so the move becomes a slide to the left, then turn it back.
+  // (rotate90 is clockwise: after it, sliding left moves tiles down.)
   if (dir === "RIGHT") b = b.map(r => r.reverse());
-  if (dir === "UP") b = rotate90(b);
-  if (dir === "DOWN") b = rotate270(b);
+  if (dir === "UP") b = rotate270(b);
+  if (dir === "DOWN") b = rotate90(b);
 
   b = b.map(row => {
     const { row: newRow, gain: g } = slideLeft(row);
@@ -86,8 +88,8 @@ function applyMove(dir) {
   });
 
   if (dir === "RIGHT") b = b.map(r => r.reverse());
-  if (dir === "UP") b = rotate270(b);
-  if (dir === "DOWN") b = rotate90(b);
+  if (dir === "UP") b = rotate90(b);
+  if (dir === "DOWN") b = rotate270(b);
 
   if (!changed) return false;
 
@@ -193,13 +195,13 @@ function hideOverlay() {
 
 const KEY_TO_DIR = {
 
-  ArrowUp: "DOWN",
-  ArrowDown: "UP",
+  ArrowUp: "UP",
+  ArrowDown: "DOWN",
   ArrowLeft: "LEFT",
   ArrowRight: "RIGHT",
 
-  w: "DOWN",
-  s: "UP",
+  w: "UP",
+  s: "DOWN",
   a: "LEFT",
   d: "RIGHT"
 };
@@ -306,8 +308,17 @@ async function aiStep() {
       render(spawned);
 
       setAIStatus("active", `AI played: ${dir}`);
-      saveGameState();
     }
+
+    // Same end-of-game check as a keyboard move. Without it, the AI loop kept
+    // asking the server for moves after the board filled up.
+    if (checkGameOver()) {
+      gameOver = true;
+      stopAI();
+      showOverlay("Game Over", `Final score: ${score}`);
+    }
+
+    saveGameState();
 
   } catch (err) {
 

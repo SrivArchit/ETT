@@ -6,13 +6,11 @@
 
 A browser version of 2048 with a built-in AI player. Play it yourself, or let the AI take over: an Expectimax search in Python picks every move, and finished games go onto a shared leaderboard.
 
-<!-- Screenshot: save an image as docs/screenshot.png and uncomment the next line.
-![2048 AI playing](docs/screenshot.png)
--->
+![The AI playing a full game in the browser, sped up 3.5×: it builds the 1024 tile and finishes on 14,528 points](docs/ai-demo.gif)
 
 ## Features
 
-- **Play or watch**: arrow keys for you; **AI: Step** for one AI move, or **AI: Auto** with an adjustable speed (50–800 ms per move)
+- **Play or watch**: arrow keys or WASD for you; **AI: Step** for one AI move, or **AI: Auto** with an adjustable speed (50–800 ms per move)
 - **Undo** and automatic save of the current game in the browser
 - **Leaderboard**: top 10 scores stored in SQLite, with name validation on the server
 - **Docker image** served with gunicorn
@@ -90,11 +88,12 @@ docker run -p 5000:5000 2048-ai
 ## Tests and CI
 
 ```bash
-pip install pytest
+pip install -r requirements-dev.txt
+python -m playwright install chromium   # for the browser tests
 pytest
 ```
 
-The tests cover the slide-and-merge rules, game-over detection, that the AI always returns a legal move, and the Flask endpoints. GitHub Actions runs them on every push and pull request, plays a 5-game benchmark and checks that the Docker image builds.
+The tests cover the slide-and-merge rules, game-over detection, that the AI always returns a legal move, and the Flask endpoints. Browser tests (Playwright) check that `game.js` moves tiles exactly the way the AI's own rules say, so the AI on the page plays the game it is planning for. GitHub Actions runs everything on every push and pull request, plays a 5-game benchmark and checks that the Docker image builds.
 
 ## Team
 
