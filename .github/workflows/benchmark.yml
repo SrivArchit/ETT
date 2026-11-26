@@ -1,0 +1,30 @@
+name: AI benchmark
+
+# Run from the Actions tab: "AI benchmark" -> "Run workflow".
+# Results appear in the run's summary page.
+on:
+  workflow_dispatch:
+    inputs:
+      games:
+        description: "Number of games to play"
+        default: "100"
+      depth:
+        description: "Expectimax search depth"
+        default: "3"
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Play games
+        env:
+          GAMES: ${{ inputs.games }}
+          DEPTH: ${{ inputs.depth }}
+        run: python bench.py --games "$GAMES" --depth "$DEPTH" --workers 4 --markdown | tee -a "$GITHUB_STEP_SUMMARY"
